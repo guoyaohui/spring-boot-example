@@ -37,11 +37,11 @@ public class LoaderTask implements Runnable {
         while (true) {
             if (status) {
                 // todo your work
-                log.info("开始执行任务...", integer.getAndAdd(1));
+                log.info("开始执行任务【{}】...", integer.getAndAdd(1));
                 DateUtils.sleep(1000 * 60 * 1);
             } else {
                 log.info("【{}】 缓存数据状态无法使用，请等待缓存数据初始化完毕 【{}】", new Date(), status);
-                DateUtils.sleep(1000 * 60 * 3);
+                DateUtils.sleep(1000 * 60 * 1);
                 status = syncDataService.finishSyncStatus();
                 log.info("【{}】 test sync status is 【{}】", new Date(), status);
                 continue;

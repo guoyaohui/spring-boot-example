@@ -35,18 +35,18 @@ public class SyncDataService {
      * 设置同步状态
      */
     public void setSyncStatusIfAbsent(CacheDataSyncStatus status) {
-        operations.setIfAbsent(RedisConstants.SYNC_DATA_STATUS_KEY, String.valueOf(status.getIndex()));
+        operations.setIfAbsent(RedisConstants.SYNC_DATA_STATUS_KEY_ONLY_FOR_INIT, String.valueOf(status.getIndex()));
     }
 
     public void setSyncStatusForSuition(CacheDataSyncStatus status, long timeout, TimeUnit unit) {
-        operations.set(RedisConstants.SYNC_DATA_STATUS_KEY, String.valueOf(status.getIndex()), timeout, unit);
+        operations.set(RedisConstants.SYNC_DATA_STATUS_KEY_ONLY_FOR_INIT, String.valueOf(status.getIndex()), timeout, unit);
     }
 
     /**
      * 获取同步结束状态
      */
     public boolean finishSyncStatus() {
-        String value = operations.get(RedisConstants.SYNC_DATA_STATUS_KEY);
+        String value = operations.get(RedisConstants.SYNC_DATA_STATUS_KEY_ONLY_FOR_INIT);
         if (StringUtils.isBlank(value)) {
             return false;
         } else {

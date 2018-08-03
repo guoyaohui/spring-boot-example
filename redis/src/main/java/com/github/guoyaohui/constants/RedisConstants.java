@@ -14,7 +14,7 @@ public class RedisConstants {
     /**
      * {@link com.github.guoyaohui.domain.enums.CacheDataSyncStatus}
      */
-    public static final String SYNC_DATA_STATUS_KEY = "iot:file:sync";
+    public static final String SYNC_DATA_STATUS_KEY_ONLY_FOR_INIT = "iot:file:sync";
 
 
 }

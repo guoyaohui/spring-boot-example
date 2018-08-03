@@ -40,13 +40,17 @@ public class KeepliveTask {
             .expireUnit("EX")
             .expireTime(60)
             .build();
+        boolean status = true;
         // 只读节点会尝试去抢占锁
         if (ServerRoleType.ONLY_READER.equals(currentServerNodeInfo.getRoleType()) || ServerRoleType.OTHER.equals(currentServerNodeInfo.getRoleType())) {
             distributeLockService.locked(lockDTO);
         } else {
             // 读写节点会定时去延续对锁的持有
             distributeLockService.sustain(lockDTO);
-            syncDataService.setSyncStatusForSuition(CacheDataSyncStatus.SYNC_FINISH, 10, TimeUnit.SECONDS);
+            // 只有等到初始化同步结束后才进行续命操作
+            if (syncDataService.finishSyncStatus()) {
+                syncDataService.setSyncStatusForSuition(CacheDataSyncStatus.SYNC_FINISH, 60, TimeUnit.SECONDS);
+            }
         }
         log.info("【{}】 : server node name 【{}】 , and it is role is 【{}】", new Date(), currentServerNodeInfo.getName(), currentServerNodeInfo.getRoleType().getLabel());
     }

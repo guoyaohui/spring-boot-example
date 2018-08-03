@@ -6,7 +6,9 @@ import com.github.guoyaohui.domain.enums.ServerRoleType;
 import com.github.guoyaohui.schedule.KeepliveTask;
 import com.github.guoyaohui.service.DistributeLockService;
 import com.github.guoyaohui.service.SyncDataService;
+import com.github.guoyaohui.utils.DateUtils;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -37,18 +39,25 @@ public class SyncCaheDataWhenStarted implements Runnable {
 
     @Override
     public void run() {
-        if (ServerRoleType.WRITEER_AND_READER.equals(currentServerNodeInfo.getRoleType())) {
-            syncDataService.setSyncStatusIfAbsent(CacheDataSyncStatus.SYNCING);
-            log.info("【{}】时，【{}】 节点开始进行数据同步，请稍后", new Date(), currentServerNodeInfo.getName());
-            try {
-                Thread.sleep(1000 * 60 * 5);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        while (true) {
+            if (syncDataService.finishSyncStatus()) {
+                break;
             }
-            syncDataService.setSyncStatusIfAbsent(CacheDataSyncStatus.SYNC_FINISH);
-            log.info("【{}】 数据同步已经结束，可以提供正常服务", new Date());
-        } else {
-            log.info("【{}】 节点不是【{}】节点，因此不需要进行数据同步的操作...", currentServerNodeInfo.getName(), currentServerNodeInfo.getRoleType().getLabel());
+            if (ServerRoleType.WRITEER_AND_READER.equals(currentServerNodeInfo.getRoleType())) {
+                syncDataService.setSyncStatusIfAbsent(CacheDataSyncStatus.SYNCING);
+                log.info("【{}】时，【{}】 节点开始进行数据同步，请稍后", new Date(), currentServerNodeInfo.getName());
+                try {
+                    Thread.sleep(1000 * 60 * 2);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                syncDataService.setSyncStatusForSuition(CacheDataSyncStatus.SYNC_FINISH, 60, TimeUnit.SECONDS);
+                log.info("【{}】 数据同步已经结束，可以提供正常服务", new Date());
+                break;
+            } else {
+                log.info("【{}】 节点不是【{}】节点，因此不需要进行数据同步的操作...", currentServerNodeInfo.getName(), currentServerNodeInfo.getRoleType().getLabel());
+            }
+            DateUtils.sleep(1000 * 60);
         }
     }
 }

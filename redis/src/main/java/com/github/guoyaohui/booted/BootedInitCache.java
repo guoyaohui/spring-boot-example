@@ -39,7 +39,6 @@ public class BootedInitCache {
     @EventListener
     public void executeSync(ContextRefreshedEvent event) throws InterruptedException {
         keepliveTask.keepliveSchedule();
-
         new Thread(loaderTask).start();
         new Thread(syncCaheDataWhenStarted).start();
     }

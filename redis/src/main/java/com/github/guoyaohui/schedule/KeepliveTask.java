@@ -3,9 +3,12 @@ package com.github.guoyaohui.schedule;
 import com.github.guoyaohui.constants.RedisConstants;
 import com.github.guoyaohui.domain.ServerNodeInfo;
 import com.github.guoyaohui.domain.dto.DistributeLockDTO;
+import com.github.guoyaohui.domain.enums.CacheDataSyncStatus;
 import com.github.guoyaohui.domain.enums.ServerRoleType;
 import com.github.guoyaohui.service.DistributeLockService;
+import com.github.guoyaohui.service.SyncDataService;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -22,9 +25,12 @@ public class KeepliveTask {
     @Autowired
     private String redisLoaderToken;
     @Autowired
+    private SyncDataService syncDataService;
+    @Autowired
     private ServerNodeInfo currentServerNodeInfo;
     @Autowired
     private DistributeLockService distributeLockService;
+
 
     @Scheduled(fixedRate = 1000 * 50)
     public void keepliveSchedule() {
@@ -40,6 +46,7 @@ public class KeepliveTask {
         } else {
             // 读写节点会定时去延续对锁的持有
             distributeLockService.sustain(lockDTO);
+            syncDataService.setSyncStatusForSuition(CacheDataSyncStatus.SYNC_FINISH, 10, TimeUnit.SECONDS);
         }
         log.info("【{}】 : server node name 【{}】 , and it is role is 【{}】", new Date(), currentServerNodeInfo.getName(), currentServerNodeInfo.getRoleType().getLabel());
     }

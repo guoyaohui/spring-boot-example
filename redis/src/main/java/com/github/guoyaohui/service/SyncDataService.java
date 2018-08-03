@@ -3,6 +3,7 @@ package com.github.guoyaohui.service;
 import com.github.guoyaohui.constants.RedisConstants;
 import com.github.guoyaohui.domain.ServerNodeInfo;
 import com.github.guoyaohui.domain.enums.CacheDataSyncStatus;
+import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +34,12 @@ public class SyncDataService {
     /**
      * 设置同步状态
      */
-    public void setSyncStatus(CacheDataSyncStatus status) {
+    public void setSyncStatusIfAbsent(CacheDataSyncStatus status) {
         operations.setIfAbsent(RedisConstants.SYNC_DATA_STATUS_KEY, String.valueOf(status.getIndex()));
+    }
+
+    public void setSyncStatusForSuition(CacheDataSyncStatus status, long timeout, TimeUnit unit) {
+        operations.set(RedisConstants.SYNC_DATA_STATUS_KEY, String.valueOf(status.getIndex()), timeout, unit);
     }
 
     /**

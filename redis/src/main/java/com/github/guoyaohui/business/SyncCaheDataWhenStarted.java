@@ -38,17 +38,17 @@ public class SyncCaheDataWhenStarted implements Runnable {
     @Override
     public void run() {
         if (ServerRoleType.WRITEER_AND_READER.equals(currentServerNodeInfo.getRoleType())) {
-            syncDataService.setSyncStatus(CacheDataSyncStatus.SYNCING);
-            // todo 同步操作
+            syncDataService.setSyncStatusIfAbsent(CacheDataSyncStatus.SYNCING);
             log.info("【{}】时，【{}】 节点开始进行数据同步，请稍后", new Date(), currentServerNodeInfo.getName());
             try {
                 Thread.sleep(1000 * 60 * 5);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            syncDataService.setSyncStatusIfAbsent(CacheDataSyncStatus.SYNC_FINISH);
             log.info("【{}】 数据同步已经结束，可以提供正常服务", new Date());
         } else {
-            log.info("【{}】 节点不是【{}】节点，因此需要进行数据同步的操作...", currentServerNodeInfo.getName(), currentServerNodeInfo.getRoleType().getLabel());
+            log.info("【{}】 节点不是【{}】节点，因此不需要进行数据同步的操作...", currentServerNodeInfo.getName(), currentServerNodeInfo.getRoleType().getLabel());
         }
     }
 }

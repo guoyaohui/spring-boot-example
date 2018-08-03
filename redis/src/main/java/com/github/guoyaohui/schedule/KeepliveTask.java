@@ -22,8 +22,6 @@ public class KeepliveTask {
     @Autowired
     private String redisLoaderToken;
     @Autowired
-    private DistributeLockService distributeLockScript;
-    @Autowired
     private ServerNodeInfo currentServerNodeInfo;
     @Autowired
     private DistributeLockService distributeLockService;
@@ -31,7 +29,7 @@ public class KeepliveTask {
     @Scheduled(fixedRate = 1000 * 50)
     public void keepliveSchedule() {
         DistributeLockDTO lockDTO = DistributeLockDTO.builder()
-            .key(RedisConstants.REDIS_KEY)
+            .key(RedisConstants.SERVER_ROLE_KEY)
             .value(redisLoaderToken)
             .expireUnit("EX")
             .expireTime(60)
@@ -41,8 +39,16 @@ public class KeepliveTask {
             distributeLockService.locked(lockDTO);
         } else {
             // 读写节点会定时去延续对锁的持有
-            distributeLockScript.sustain(lockDTO);
+            distributeLockService.sustain(lockDTO);
         }
         log.info("【{}】 : server node name 【{}】 , and it is role is 【{}】", new Date(), currentServerNodeInfo.getName(), currentServerNodeInfo.getRoleType().getLabel());
+    }
+
+    @Scheduled(fixedRate = 1000 * 60 * 5)
+    public void syncDbDataToCache() {
+        if (ServerRoleType.WRITEER_AND_READER.equals(currentServerNodeInfo.getRoleType())) {
+            // todo 获取数据版本号，决定是否进行数据同步
+            log.info("【{}】 同步数据还是不同步数据是一个问题", new Date());
+        }
     }
 }

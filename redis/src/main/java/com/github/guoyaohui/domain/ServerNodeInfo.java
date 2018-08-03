@@ -24,6 +24,6 @@ public class ServerNodeInfo {
     /**
      * 服务节点的角色类型
      */
-    private ServerRoleType roleType;
+    private volatile ServerRoleType roleType;
 
 }

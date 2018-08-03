@@ -6,6 +6,15 @@ package com.github.guoyaohui.constants;
  */
 public class RedisConstants {
 
-    public static final String REDIS_KEY = "iot:key";
+    /**
+     * {@link com.github.guoyaohui.domain.enums.ServerRoleType}
+     */
+    public static final String SERVER_ROLE_KEY = "iot:file:role";
+
+    /**
+     * {@link com.github.guoyaohui.domain.enums.CacheDataSyncStatus}
+     */
+    public static final String SYNC_DATA_STATUS_KEY = "iot:file:sync";
+
 
 }

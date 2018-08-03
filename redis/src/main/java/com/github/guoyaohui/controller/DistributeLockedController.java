@@ -27,7 +27,7 @@ public class DistributeLockedController {
     @GetMapping("/locked")
     public String test() {
         DistributeLockDTO lockDTO = DistributeLockDTO.builder()
-            .key(RedisConstants.REDIS_KEY)
+            .key(RedisConstants.SERVER_ROLE_KEY)
             .value(redisLoaderToken)
             .expireUnit("EX")
             .expireTime(60)
@@ -38,7 +38,7 @@ public class DistributeLockedController {
     @GetMapping("/sustain")
     public String sustain() {
         DistributeLockDTO lockDTO = DistributeLockDTO.builder()
-            .key(RedisConstants.REDIS_KEY)
+            .key(RedisConstants.SERVER_ROLE_KEY)
             .value(redisLoaderToken)
             .expireUnit("EX")
             .expireTime(60)
@@ -49,7 +49,7 @@ public class DistributeLockedController {
     @GetMapping("/del")
     public String del() {
         DistributeLockDTO lockDTO = DistributeLockDTO.builder()
-            .key(RedisConstants.REDIS_KEY)
+            .key(RedisConstants.SERVER_ROLE_KEY)
             .value(redisLoaderToken)
             .build();
         return String.valueOf(distributeLockScript.locked(lockDTO));

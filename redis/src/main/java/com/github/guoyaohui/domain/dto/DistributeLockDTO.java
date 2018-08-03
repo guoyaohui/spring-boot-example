@@ -1,15 +1,16 @@
-package com.github.guoyaohui.domain;
+package com.github.guoyaohui.domain.dto;
 
 import java.util.Arrays;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 
 /**
+ * 分布式锁使用的dto
+ *
  * @author 郭垚辉
  * @date 2018/08/03
  */
@@ -49,6 +50,18 @@ public class DistributeLockDTO {
      * 超时时间
      */
     private int expireTime;
+
+    public DistributeLockDTO(String key, String value) {
+        this.key = key;
+        this.value = value;
+    }
+
+    public DistributeLockDTO(String key, String value, String expireUnit, int expireTime) {
+        this.key = key;
+        this.value = value;
+        this.expireUnit = expireUnit;
+        this.expireTime = expireTime;
+    }
 
     public List<String> getKeys() {
         if (StringUtils.isNoneBlank(key)) {

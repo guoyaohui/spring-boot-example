@@ -59,6 +59,9 @@ public class KeepliveTask {
     public void syncDbDataToCache() {
         if (ServerRoleType.WRITEER_AND_READER.equals(currentServerNodeInfo.getRoleType())) {
             // todo 获取数据版本号，决定是否进行数据同步
+            // 1.校验数据总量是否和数据库一致
+            // 2. 校验数据版本好更新是否一致
+            // 3. 更新数据
             log.info("【{}】 同步数据还是不同步数据是一个问题", new Date());
         }
     }

@@ -1,0 +1,5 @@
+spring:
+  redis:
+    host: 193.112.66.220
+    port: 8000
+    database: 0

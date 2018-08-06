@@ -1,0 +1,176 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.github.guoyaohui.config.FTPClientProperties",
+      "name": "github.ftp",
+      "type": "com.github.guoyaohui.config.FTPClientProperties"
+    },
+    {
+      "sourceType": "com.github.guoyaohui.config.FTPClientPoolProperties",
+      "name": "github.ftp.pool",
+      "type": "com.github.guoyaohui.config.FTPClientPoolProperties"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.github.guoyaohui.config.FTPClientProperties",
+      "defaultValue": false,
+      "name": "github.ftp.autodetect",
+      "description": "是否采用自动检测编码",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.github.guoyaohui.config.FTPClientProperties",
+      "defaultValue": false,
+      "name": "github.ftp.connection-mode",
+      "description": "谈谈主动模式和被动模式(针对于服务端来说)\n\n 1. ftp进行连接的过程中，会使用到两个端口，一个是控制端口，一个是数据端口。\n 控制端口顾名思义就是：进行客户端和服务端的控制命令的传输\n 数据端口则是真正用来传输数据的端口。\n\n 2. 主动模式\n 客户端打开一个大于1023的端口，连接到服务端的控制端口(默认的控制端口为21)\n 这时候服务端主动使用自己的20端口，去连接客户端产生的另外一个大于1023的端口，然后这两者建立起数据连接通道进行数据传输\n\n 3. 被动模式\n 客户端打开一个大于1023的端口，连接到服务端的控制端口(默认的控制端口为21)\n 这时候服务端产生一个大于1023的端口，告知给客户端，然后客户端在本地又生成一个大于1023的端口，然后由客户端请求建立连接，建立数据传输的通道。\n\n 4. 由于nat的存在\n 当服务端无法正确定位到客户端的ip的时候，需要使用被动模式。\n 例如，服务端在公网，客户端在私网，这时候需要使用被动模式。毕竟服务端不知道你这个172.16.21.186的玩意在哪里。\n\n\n 主动模式：{@link org.apache.commons.net.ftp.FTPClient#ACTIVE_LOCAL_DATA_CONNECTION_MODE}\n 被动模式：{@link org.apache.commons.net.ftp.FTPClient#PASSIVE_LOCAL_DATA_CONNECTION_MODE}\n\n connectionMode: true为主动模式 false被动模式",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.github.guoyaohui.config.FTPClientProperties",
+      "name": "github.ftp.encoding",
+      "description": "指定编码",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.github.guoyaohui.config.FTPClientProperties",
+      "defaultValue": false,
+      "name": "github.ftp.file-type",
+      "description": "二进制文件：{@link FTP#BINARY_FILE_TYPE}\n 文本文件：{@link FTP#ASCII_FILE_TYPE}\n\n true 二进制\n false 文本模式",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.github.guoyaohui.config.FTPClientProperties",
+      "name": "github.ftp.host",
+      "description": "主机名",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.github.guoyaohui.config.FTPClientProperties",
+      "name": "github.ftp.password",
+      "description": "密码",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.github.guoyaohui.config.FTPClientPoolProperties",
+      "name": "github.ftp.pool.block-when-exhausted",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.github.guoyaohui.config.FTPClientPoolProperties",
+      "name": "github.ftp.pool.eviction-policy",
+      "type": "org.apache.commons.pool2.impl.EvictionPolicy<T>"
+    },
+    {
+      "sourceType": "com.github.guoyaohui.config.FTPClientPoolProperties",
+      "name": "github.ftp.pool.eviction-policy-class-name",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.github.guoyaohui.config.FTPClientPoolProperties",
+      "name": "github.ftp.pool.evictor-shutdown-timeout-millis",
+      "type": "java.lang.Long"
+    },
+    {
+      "sourceType": "com.github.guoyaohui.config.FTPClientPoolProperties",
+      "name": "github.ftp.pool.fairness",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.github.guoyaohui.config.FTPClientPoolProperties",
+      "name": "github.ftp.pool.jmx-enabled",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.github.guoyaohui.config.FTPClientPoolProperties",
+      "name": "github.ftp.pool.jmx-name-base",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.github.guoyaohui.config.FTPClientPoolProperties",
+      "name": "github.ftp.pool.jmx-name-prefix",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.github.guoyaohui.config.FTPClientPoolProperties",
+      "name": "github.ftp.pool.lifo",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.github.guoyaohui.config.FTPClientPoolProperties",
+      "name": "github.ftp.pool.max-idle",
+      "description": "最大存货时间",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.github.guoyaohui.config.FTPClientPoolProperties",
+      "name": "github.ftp.pool.max-total",
+      "description": "连接池中ftp的最大数量",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.github.guoyaohui.config.FTPClientPoolProperties",
+      "name": "github.ftp.pool.max-wait-millis",
+      "type": "java.lang.Long"
+    },
+    {
+      "sourceType": "com.github.guoyaohui.config.FTPClientPoolProperties",
+      "name": "github.ftp.pool.min-evictable-idle-time-millis",
+      "type": "java.lang.Long"
+    },
+    {
+      "sourceType": "com.github.guoyaohui.config.FTPClientPoolProperties",
+      "name": "github.ftp.pool.min-idle",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.github.guoyaohui.config.FTPClientPoolProperties",
+      "name": "github.ftp.pool.num-tests-per-eviction-run",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.github.guoyaohui.config.FTPClientPoolProperties",
+      "name": "github.ftp.pool.soft-min-evictable-idle-time-millis",
+      "type": "java.lang.Long"
+    },
+    {
+      "sourceType": "com.github.guoyaohui.config.FTPClientPoolProperties",
+      "name": "github.ftp.pool.test-on-borrow",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.github.guoyaohui.config.FTPClientPoolProperties",
+      "name": "github.ftp.pool.test-on-create",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.github.guoyaohui.config.FTPClientPoolProperties",
+      "name": "github.ftp.pool.test-on-return",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.github.guoyaohui.config.FTPClientPoolProperties",
+      "name": "github.ftp.pool.test-while-idle",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.github.guoyaohui.config.FTPClientPoolProperties",
+      "name": "github.ftp.pool.time-between-eviction-runs-millis",
+      "type": "java.lang.Long"
+    },
+    {
+      "sourceType": "com.github.guoyaohui.config.FTPClientProperties",
+      "defaultValue": 0,
+      "name": "github.ftp.port",
+      "description": "端口",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.github.guoyaohui.config.FTPClientProperties",
+      "name": "github.ftp.username",
+      "description": "用户名",
+      "type": "java.lang.String"
+    }
+  ]
+}

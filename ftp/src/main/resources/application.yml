@@ -1,0 +1,14 @@
+
+server:
+  port: 8074
+github:
+  ftp:
+    host: 192.168.88.8
+    port: 40021
+    username: guoyaohui
+    password: 12345678
+    pool:
+      max-total: 12
+      min-idle: 3
+      max-idle: 12
+    autodetect: true
